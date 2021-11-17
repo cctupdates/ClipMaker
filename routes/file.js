@@ -38,4 +38,31 @@ router.post('/', async (req, res) => {
   }
 })
 
+//get video
+router.get('/:uuid', async (req, res) => {
+  try {
+    const video = await File.findOne({ uuid: req.params.uuid })
+
+    if (!video) {
+      return res.status(400).json({ msg: 'No file Found' })
+    }
+    console.log(video)
+    const filePath = `${__dirname}/../client/public${video.filepath}`
+    console.log(filePath)
+    return res.download(filePath, video.name, (err) => {
+      if (err) {
+        res.status(500).send({
+          message: 'Could not download the file. ' + err,
+        })
+      }
+    })
+
+    res.json({ msg: 'Success' })
+
+    console.log('success')
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 module.exports = router

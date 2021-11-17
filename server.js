@@ -9,6 +9,9 @@ app.use(express.json({ extended: false }))
 
 // Upload Endpoint
 app.use('/upload', require('./routes/file'))
+
+//download endpoint
+app.use('/download', require('./routes/file'))
 const PORT = process.env.PORT || 5000
 
 if (process.env.NODE_ENV === 'production') {
