@@ -1,15 +1,16 @@
 import React from 'react'
-import FileUpload from './components/FileUpload'
 import './App.css'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import Home from './pages/Home'
+import MakeClip from './pages/MakeClips/MakeClip'
 
 const App = () => (
-  <div className='container mt-4'>
-    <h4 className='display-4 text-center mb-4'>
-      <i className='fab fa-react' /> Clip Maker
-    </h4>
-
-    <FileUpload />
-  </div>
+  <Router>
+    <Switch>
+      <Route path='/' exact component={Home} />
+      <Route path='/make-clip/:uuid' exact component={MakeClip} />
+    </Switch>
+  </Router>
 )
 
 export default App

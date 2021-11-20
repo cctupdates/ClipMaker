@@ -31,6 +31,14 @@ const FileSchema = new mongoose.Schema({
         required: true,
         default: Date.now,
       },
+      startingTime: {
+        type: String,
+        required: true,
+      },
+      duration: {
+        type: String,
+        required: true,
+      },
       required: false,
     },
   ],

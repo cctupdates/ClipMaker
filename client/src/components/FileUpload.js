@@ -2,11 +2,26 @@ import React, { Fragment, useState } from 'react'
 import Message from './Message'
 import Progress from './Progress'
 import axios from 'axios'
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import { useHistory } from 'react-router-dom'
+import { useStyles } from './FileUploadStyles'
 
+import LinearProgress from '@material-ui/core/LinearProgress'
+import DragAndDrop from './DragAndDrop/DragAndDrop'
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import Typography from '@material-ui/core/Typography'
 const FileUpload = () => {
   const [file, setFile] = useState('')
+  const history = useHistory()
   const [filename, setFilename] = useState('Choose File')
-  const [uploadedFile, setUploadedFile] = useState({})
+  const [uploadedFile, setUploadedFile] = useState({
+    uuid: '',
+    name: '',
+    createdAt: '',
+    filepath: '',
+    clips: [],
+  })
   const [message, setMessage] = useState('')
   const [uploadPercentage, setUploadPercentage] = useState(0)
 
@@ -36,12 +51,13 @@ const FileUpload = () => {
         },
       })
 
+      console.log(res)
+
+      setUploadedFile(res.data)
       // Clear percentage
       setTimeout(() => setUploadPercentage(0), 10000)
 
       const { fileName, filePath } = res.data
-
-      setUploadedFile({ fileName, filePath })
 
       setMessage('File Uploaded')
     } catch (err) {
@@ -54,9 +70,69 @@ const FileUpload = () => {
     }
   }
 
+  console.log(uploadedFile)
+
+  const classes = useStyles()
   return (
-    <Fragment>
-      {message ? <Message msg={message} /> : null}
+    <div>
+      <Grid container spacing={3}>
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={12}
+          style={{ display: 'flex', justifyContent: 'center' }}
+        >
+          <DragAndDrop
+            onChange={onChange}
+            onSubmit={onSubmit}
+            filename={filename}
+          />
+        </Grid>
+        <Grid item xs={12} md={12} lg={12} style={{ marginTop: '2em' }}>
+          {' '}
+          <LinearProgress
+            style={{
+              height: '15px',
+              width: '93%',
+              borderRadius: '50px',
+              margin: 'auto',
+            }}
+            variant='determinate'
+            value={uploadPercentage}
+          />
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          style={{ display: 'flex', justifyContent: 'center' }}
+        >
+          <Button
+            variant='contained'
+            color='default'
+            className={classes.button}
+            startIcon={<CloudUploadIcon />}
+            onClick={(e) => onSubmit(e)}
+          >
+            Upload
+          </Button>
+          {uploadedFile.uuid !== '' && (
+            <Button
+              variant='contained'
+              color='default'
+              className={classes.button}
+              startIcon={<CloudUploadIcon />}
+              onClick={() => history.push(`/make-clip/${uploadedFile.uuid}`)}
+            >
+              Make Clip
+            </Button>
+          )}
+        </Grid>
+      </Grid>
+
+      {/* 
       <form onSubmit={onSubmit}>
         <div className='custom-file mb-4'>
           <input
@@ -70,15 +146,19 @@ const FileUpload = () => {
           </label>
         </div>
 
-        <Progress percentage={uploadPercentage} />
-
         <input
           type='submit'
           value='Upload'
           className='btn btn-primary btn-block mt-4'
         />
-      </form>
-    </Fragment>
+      </form> */}
+
+      {/* {uploadedFile.uuid !== '' && (
+        <button onClick={() => history.push(`/make-clip/${uploadedFile.uuid}`)}>
+          Make Clip
+        </button>
+      )} */}
+    </div>
   )
 }
 
