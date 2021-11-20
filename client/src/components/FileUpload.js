@@ -11,6 +11,10 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import DragAndDrop from './DragAndDrop/DragAndDrop'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import Typography from '@material-ui/core/Typography'
+import * as path from 'path'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 const FileUpload = () => {
   const [file, setFile] = useState('')
   const history = useHistory()
@@ -26,9 +30,15 @@ const FileUpload = () => {
   const [uploadPercentage, setUploadPercentage] = useState(0)
 
   const onChange = (e) => {
-    if (e.target.files[0]) {
+    // console.log(typeof path.extname(e.target.files[0].name))
+    if (
+      e.target.files[0] &&
+      path.extname(e.target.files[0].name.toLowerCase()) === '.mp4'
+    ) {
       setFile(e.target.files[0])
       setFilename(e.target.files[0].name)
+    } else {
+      toast.error('File format not supported only .mp4 files accepted')
     }
   }
 
@@ -75,6 +85,7 @@ const FileUpload = () => {
   const classes = useStyles()
   return (
     <div>
+      <ToastContainer />
       <Grid container spacing={3}>
         <Grid
           item

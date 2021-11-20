@@ -4,7 +4,7 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     marginTop: '4%',
-    height: '1000px',
+    height: '100%',
     width: '95%',
     margin: 'auto',
   },
@@ -33,14 +33,22 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     height: '100px',
   },
-  scaleCard: {},
+  scaleCard: {
+    height: '20vw',
+    '@media (max-width: 767px)': {
+      height: '100vw ',
+    },
+  },
   toogleDiv: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: 'grid',
+    gridTemplateColumns: '1fr 2fr 1fr',
     width: '90%',
     margin: 'auto',
     marginTop: '2%',
     height: '50px',
+    '@media (max-width: 767px)': {
+      gridTemplateColumns: '1fr ',
+    },
   },
   imgStyle: {
     width: '100%',
@@ -56,24 +64,28 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
   },
   toggleButtons: {
-    width: '30%',
+    width: '50%',
     margin: 'auto',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     height: '50px',
+    alignContent: 'center',
+    alignItems: 'center',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
   },
   scaleBTN: {
     width: '40%',
     height: '45px',
   },
   addClipBtnContainer: {
-    width: '60%',
+    width: '100%',
     display: 'flex',
-    margin: 'auto',
+    margin: ' auto',
     height: '50px',
-    marginTop: '4%',
-    marginBottom: '10%',
+    marginTop: '5em',
     justifyContent: 'space-between',
   },
   addClipBtn: {
@@ -81,7 +93,7 @@ export const useStyles = makeStyles((theme) => ({
     color: 'grey',
     margin: 'auto',
     borderRadius: '0',
-    width: '23%',
+    width: '40%',
     background: '#D9DFEA',
     height: '90%',
   },

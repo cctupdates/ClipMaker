@@ -63,10 +63,11 @@ const PrettoSlider = withStyles({
   },
   rail: {
     height: '20px',
-    opacity: 0,
+    opacity: 1,
+    backgroundColor: '#bfbfbf',
   },
   mark: {
-    backgroundColor: 'black',
+    backgroundColor: '#bfbfbf',
     color: 'red',
     height: '30px',
     width: 1,

@@ -20,7 +20,9 @@ const DropFileInput = ({ onChange, filename }) => {
 
   const onDragLeave = () => wrapperRef.current.classList.remove('dragover')
 
-  const onDrop = () => wrapperRef.current.classList.remove('dragover')
+  const onDrop = (e) => {
+    wrapperRef.current.classList.remove('dragover')
+  }
 
   // const onFileDrop = (e) => {
   //   const newFile = e.target.files[0]
@@ -60,6 +62,21 @@ const DropFileInput = ({ onChange, filename }) => {
           <Typography style={{ textAlign: 'center' }}>
             Drag & Drop your files here
           </Typography>
+          <input
+            accept='video/mp4'
+            id='contained-button-file'
+            type='file'
+            onChange={onChange}
+            style={{
+              width: '100%',
+              height: '100%',
+              opacity: 0,
+              cursor: 'pointer',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+            }}
+          />
         </div>
         {/* <input
           style={{
@@ -75,14 +92,15 @@ const DropFileInput = ({ onChange, filename }) => {
           value=''
           onChange={onChange}
         /> */}
-        <input
-          accept='video/*'
+
+        {/* <input
+          accept='video/mp4'
           className={classes.input}
           id='contained-button-file'
-          multiple
           type='file'
           onChange={onChange}
-        />
+        /> */}
+
         <label htmlFor='contained-button-file' style={{ margin: ' 1em auto' }}>
           <Button variant='contained' color='primary' component='span'>
             {filename ? filename : 'Choose File'}

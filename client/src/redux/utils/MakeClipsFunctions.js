@@ -24,8 +24,17 @@ export const onLoad = (
   history,
   currentClipId,
   clips,
-  videoDownloaded
+  videoDownloaded,
+  isVideoLoaded,
+  setIsVideoLoaded
 ) => {
+  console.log({
+    isVideoLoaded,
+    setIsVideoLoaded,
+  })
+  if (!isVideoLoaded) {
+    setValue([0, e.getDuration()])
+  }
   dispatch(
     setMetadata({
       videoHeight: e.props.height,
@@ -43,7 +52,8 @@ export const onLoad = (
   }
   dispatch(addClip(newClip))
   setEndingTime(e.getDuration())
-  // setValue([0, e.getDuration()])
+
+  setIsVideoLoaded(true)
 }
 
 export const handleSaveClip = (

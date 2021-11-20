@@ -16,6 +16,8 @@ const Video = ({
   videoFunction,
   videoRef,
   videoDownloaded,
+  isVideoLoaded,
+  setIsVideoLoaded,
 }) => {
   console.log(videoDownloaded)
   console.log(path.extname(videoDownloaded.name).substring(1))
@@ -66,8 +68,9 @@ const Video = ({
             history,
             currentClipId,
             clips,
-            setStartingTime,
-            videoDownloaded
+            videoDownloaded,
+            isVideoLoaded,
+            setIsVideoLoaded
           )
         }
       />

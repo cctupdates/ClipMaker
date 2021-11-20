@@ -22,7 +22,7 @@ const ToogleBtn = ({ onClick, hidebtn, text, height, width, algnText }) => {
         border: '1px solid #48B499',
         color: '#48B499',
         textTransform: 'none',
-        height: height,
+        height: '50px',
         textAlign: 'left',
         width: width,
       }}

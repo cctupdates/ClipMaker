@@ -44,8 +44,11 @@ import {
   handleSaveClip,
   handleScaleChange,
 } from '../../redux/utils/MakeClipsFunctions'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
-const MakeClip = () => {
+const MakeClip = ({ videoDownloaded, setVideoDownloaded }) => {
   const history = useHistory()
 
   const classes = useStyles()
@@ -54,7 +57,7 @@ const MakeClip = () => {
 
   const dispatch = useDispatch()
   ////useStateSection//////
-  const [hidden, setHidden] = useState(false)
+  const [hidden, setHidden] = useState(true)
   let [secondsArray] = useState([
     '0.25 seconds',
     '0.5 seconds',
@@ -72,13 +75,14 @@ const MakeClip = () => {
   const [clipName, setclipName] = useState('')
 
   const [addingClip, setAddingClip] = useState(false)
-  const [videoDownloaded, setVideoDownloaded] = useState({
-    uuid: '',
-    name: '',
-    createdAt: '',
-    filepath: '',
-    clips: [],
-  })
+  // const [videoDownloaded, setVideoDownloaded] = useState({
+  //   uuid: '',
+  //   name: '',
+  //   createdAt: '',
+  //   filepath: '',
+  //   clips: [],
+  // })
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
 
   const [value, setValue] = useState(['0', '100'])
   const [startingTime, setStartingTime] = useState(0)
@@ -120,26 +124,30 @@ const MakeClip = () => {
         },
       })
       setVideoDownloaded(res.data)
+      if (res) {
+        toast.success('Clip Added, Check Hamburger option on Top Left')
+      }
     } catch (err) {
       console.log(err)
+      toast.error(err)
     }
   }
-  const handleDownloadClip = async (uuid, clipid) => {
-    try {
-      await axios.get(`/download-clip/${uuid}/${clipid}`)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  // const handleDownloadClip = async (uuid, clipid) => {
+  //   try {
+  //     await axios.get(`/download-clip/${uuid}/${clipid}`)
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
-  const deleteClip = async (uuid, clipid) => {
-    try {
-      const res = await axios.delete(`/delete-clip/${uuid}/${clipid}`)
-      setVideoDownloaded(res.data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  // const deleteClip = async (uuid, clipid) => {
+  //   try {
+  //     const res = await axios.delete(`/delete-clip/${uuid}/${clipid}`)
+  //     setVideoDownloaded(res.data)
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
   useEffect(() => {
     getVideo(uuid)
@@ -152,10 +160,12 @@ const MakeClip = () => {
 
   console.log(videoDownloaded)
 
+  if (!videoDownloaded.uuid) return <CircularProgress />
   return (
     <div className={classes.root}>
+      <ToastContainer />
       <Grid container spacing={3}>
-        <Grid item xs={9}>
+        <Grid item xs={12} md={12} lg={12}>
           <Video
             setMetadata={setMetadata}
             setEndingTime={setEndingTime}
@@ -170,6 +180,8 @@ const MakeClip = () => {
             videoFunction={onLoad}
             videoRef={videoRef}
             videoDownloaded={videoDownloaded}
+            isVideoLoaded={isVideoLoaded}
+            setIsVideoLoaded={setIsVideoLoaded}
           />
 
           {/* tanul  code */}
@@ -217,63 +229,63 @@ const MakeClip = () => {
                 label='Enter Clip Name'
                 height='50px'
               />
+              <div style={{ marginTop: '2em ', marginBottom: '2em' }}>
+                {hidden && (
+                  <div className={classes.toggleButtons}>
+                    <Button className={classes.scaleBTN} variant='outlined'>
+                      Scale
+                    </Button>
 
-              {hidden && (
-                <div className={classes.toggleButtons}>
-                  <Button className={classes.scaleBTN} variant='outlined'>
-                    Scale
-                  </Button>
+                    <Selector
+                      options={secondsArray}
+                      border={'1px solid #7984A1'}
+                      playerName={secondsArray[secondIndex]}
+                      width='100%'
+                      fullWidth='fullWidth'
+                      handleChange={(e) =>
+                        handleScaleChange(
+                          e,
+                          setScale,
+                          setSecondIndex,
+                          setMin,
+                          setMax,
+                          value,
+                          currentZoom,
+                          startingTime,
+                          endingTime
+                        )
+                      }
+                      color='#FCFCFC'
+                      height='50px'
+                    />
+                  </div>
+                )}
+              </div>
 
-                  <Selector
-                    options={secondsArray}
-                    border={'1px solid #7984A1'}
-                    playerName={secondsArray[secondIndex]}
-                    width='100%'
-                    fullWidth='fullWidth'
-                    handleChange={(e) =>
-                      handleScaleChange(
-                        e,
-                        setScale,
-                        setSecondIndex,
-                        setMin,
-                        setMax,
-                        value,
-                        currentZoom,
-                        startingTime,
-                        endingTime
-                      )
-                    }
-                    color='#FCFCFC'
-                    height='
-									50%'
-                  />
-                </div>
-              )}
               <ToogleBtn onClick={onClick} text='Mark Accurately' />
             </div>
-
-            <div className={classes.addClipBtnContainer}>
-              <Button
-                className={classes.addClipBtn}
-                variant='contained'
-                onClick={(e) => handleAddClip(uuid)}
-              >
-                Add Clip
-              </Button>
-              <Button
-                onClick={() => history.push('/')}
-                className={classes.addClipBtn}
-                variant='contained'
-              >
-                Home Page
-              </Button>
-            </div>
           </Card>
+          <div className={classes.addClipBtnContainer}>
+            <Button
+              className={classes.addClipBtn}
+              variant='contained'
+              onClick={(e) => handleAddClip(uuid)}
+            >
+              Add Clip
+            </Button>
+            <Button
+              onClick={() => history.push('/')}
+              className={classes.addClipBtn}
+              variant='contained'
+            >
+              Home Page
+            </Button>
+          </div>
         </Grid>
-        <Grid item xs={3}>
+        {/* <Grid item xs={12} md={3} lg={3}>
           <Drawer
             style={{ background: 'red' }}
-            anchor='right'
+            anchor='bottom'
             className={classes.drawer}
             variant='permanent'
             classes={{
@@ -323,7 +335,7 @@ const MakeClip = () => {
               </List>
             </div>
           </Drawer>
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   )

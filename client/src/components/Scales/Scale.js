@@ -54,23 +54,74 @@ ValueLabelComponent.propTypes = {
 const iOSBoxShadow =
   '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)'
 
+// const IOSSlider = withStyles({
+//   root: {
+//     color: '#F4F7FF',
+//     height: 2,
+//     padding: '15px 0',
+//     marginTop: '2em',
+//     marginBottom: '3em',
+//   },
+
+//   thumb: {
+//     borderRadius: '0px',
+//     height: '60px',
+//     width: 3,
+//     backgroundColor: '#324371',
+//     boxShadow: iOSBoxShadow,
+//     marginTop: -16.2,
+//     marginLeft: 0,
+//     '&:focus, &:hover, &$active': {
+//       boxShadow:
+//         '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
+//       // Reset on touch devices, it doesn't add specificity
+//       '@media (hover: none)': {
+//         boxShadow: iOSBoxShadow,
+//       },
+//     },
+//   },
+//   active: {},
+//   valueLabel: {
+//     left: 'calc(-50% + 12px)',
+//     top: -22,
+//     '& *': {
+//       background: 'transparent',
+//       color: '#000',
+//     },
+//   },
+//   track: {
+//     height: '36px',
+//   },
+//   rail: {
+//     height: 2,
+//     opacity: 0,
+//     // backgroundColor: 'grey',
+//   },
+//   mark: {
+//     backgroundColor: 'black',
+//     height: '30px',
+//     width: 1,
+//     marginTop: -3,
+//   },
+//   markActive: {
+//     // background: 'rgba(75, 94, 145, 0.28)',
+//     // opacity: 1,
+//     height: '30px',
+//   },
+// })(Slider)
 const IOSSlider = withStyles({
   root: {
-    color: '#F4F7FF',
+    color: '#3880ff',
     height: 2,
     padding: '15px 0',
-    marginTop: '2em',
-    marginBottom: '3em',
   },
-
   thumb: {
-    borderRadius: '0px',
-    height: '60px',
-    width: 3,
-    backgroundColor: '#324371',
+    height: 28,
+    width: 28,
+    backgroundColor: '#fff',
     boxShadow: iOSBoxShadow,
-    marginTop: -16.2,
-    marginLeft: 0,
+    marginTop: -14,
+    marginLeft: -14,
     '&:focus, &:hover, &$active': {
       boxShadow:
         '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
@@ -90,23 +141,22 @@ const IOSSlider = withStyles({
     },
   },
   track: {
-    height: '36px',
+    height: 2,
   },
   rail: {
     height: 2,
-    opacity: 0,
-    backgroundColor: 'grey',
+    opacity: 0.5,
+    backgroundColor: '#bfbfbf',
   },
   mark: {
-    backgroundColor: 'black',
-    height: '30px',
+    backgroundColor: '#bfbfbf',
+    height: 8,
     width: 1,
     marginTop: -3,
   },
   markActive: {
-    background: 'rgba(75, 94, 145, 0.28)',
     opacity: 1,
-    height: '30px',
+    backgroundColor: 'currentColor',
   },
 })(Slider)
 
